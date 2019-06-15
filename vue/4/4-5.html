@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的传值</title>
+    <script src="./Vue.js"></script>
+</head>
+<body>
+    <div id='app'>
+        <counter content='jack'></counter>
+        <counter content='marry'></counter>
+    </div>
+    <script>
+        // 非父子组件间的传值
+
+        Vue.prototype.bus = new Vue()
+        Vue.component('counter', {
+            props: ['content'],
+            data: function() {
+                return {
+                    cont: this.content
+                }
+            },
+            template: '<div @click="onClick">{{cont}}</div>',
+            methods: {
+                onClick: function() {
+                    this.bus.$emit('change', this.cont)
+                }
+            },
+            mounted: function() {
+                this.bus.$on('change', content =>   {
+                    this.cont = content
+                })
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>

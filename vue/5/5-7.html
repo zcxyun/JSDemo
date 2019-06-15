@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的动画封装</title>
+    <script src="../Vue.js"></script>
+    <link rel="stylesheet" href="../libs/css/animate.css">
+</head>
+<body>
+    <div id="root">
+        <fade :show='show'>
+            <div>fuck you</div>
+        </fade>
+        <button @click='onClick'>button</button>
+    </div>
+    <script>
+        Vue.component('fade', {
+            props: ['show'],
+            // 下面这种封装需要依赖 animate.css
+            // template: `
+            //     <transition
+            //         enter-active-class='animated fadeIn'
+            //         leave-active-class='animated fadeOut'
+            //     >
+            //         <slot v-if='show'></slot>
+            //     </transition>
+            // `
+            // 下面这种封装不需要依赖 外部组件
+            template: `
+                <transition
+                    @before-enter='handleBeforeEnter'
+                    @enter='handleEnter'
+                    @after-enter='handleAfterEnter'
+
+                    @before-leave='handleBeforeLeave'
+                    @leave='handleLeave'
+                    @after-leave='handleAfterLeave'
+                >
+                    <slot v-if='show'></slot>
+                </transition>
+            `,
+            methods: {
+                handleBeforeEnter: function(el) {
+                    el.style.color = 'red'
+                },
+                handleEnter: function(el, done) {
+                    setTimeout(() => {
+                        el.style.color = 'blue'
+                        done()
+                    }, 2000)
+                },
+                handleAfterEnter: function(el) {},
+                handleBeforeLeave: function(el) {},
+                handleLeave: function(el, done) {},
+                handleAfterLeave:function(el) {}
+            }
+        })
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: false
+            },
+            methods: {
+                onClick: function() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>

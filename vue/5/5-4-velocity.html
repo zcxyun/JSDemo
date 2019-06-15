@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的 Js 动画与 Velocity.js 的结合</title>
+    <link rel="stylesheet" href="../libs/css/animate.css">
+    <script src="../Vue.js"></script>
+    <script src="../libs/js/velocity.js"></script>
+</head>
+<body>
+    <div id="root">
+        <transition
+            name='fade'
+            @before-enter='handleBeforeEnter'
+            @enter='handleEnter'
+            @after-enter='handleAfterEnter'
+
+            @before-leave='handleBeforeLeave'
+            @leave='handleLeave'
+            @after-leave='handleAfterLeave'
+        >
+            <div v-if='show'>who are you</div>
+        </transition>
+        <button @click='onClick'>button</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: false
+            },
+            methods: {
+                onClick: function() {
+                    this.show = !this.show
+                },
+                handleBeforeEnter: function(el) {
+                    el.style.color = 'red'
+                    el.style.opacity = 0
+                    el.style.transformOrigin = 'left'
+                },
+                handleEnter: function(el, done) {
+                    Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 1000 })
+                    Velocity(el, { fontSize: '1em', color: 'blue' }, { complete: done })
+                },
+                handleAfterEnter: function(el) {
+                    // el.style.color = 'black'
+                },
+                handleBeforeLeave: function() {},
+                handleLeave: function() {},
+                handleAfterLeave: function() {}
+            }
+        })
+    </script>
+</body>
+</html>

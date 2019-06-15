@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue动画 - Vue中CSS动画原理(transition)</title>
+    <script src="../Vue.js"></script>
+    <style rel='stylesheet'>
+        /*.showme1 {
+            color: black;
+            background-color: white;
+            transition: color,background-color 1s;
+        }
+        .showme2 {
+            color: white;
+            background-color: black;
+            transition: color,background-color 1s;
+        }*/
+
+        .v-enter, .v-leave-to {
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- <div :class="[show?'showme1':'showme2']">hello world</div> -->
+
+        <transition>
+            <div v-if='show'>hello world</div>
+        </transition>
+
+        <button @click='onClick'>切换</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: false
+            },
+            methods: {
+                onClick: function() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在Vue中使用插槽</title>
+    <script src="./Vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <child content='<h1>world</h1>'></child>
+    </div>
+    <script>
+        // 在Vue中使用插槽
+
+        Vue.component('child', {
+            props: ['content'],
+
+            template: "<div> <p v-html='content'></p></div>",
+
+        })
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                con: '<p>zcyxun</p>'
+            }
+        })
+    </script>
+</body>
+</html>

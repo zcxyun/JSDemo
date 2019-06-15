@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue动画 - Vue中CSS动画原理(animation)</title>
+    <script src="../Vue.js"></script>
+    <style>
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        /*.fade-enter-active {
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+        .fade-leave-active {
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }*/
+        .enter {
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+        .leave {
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- <transition name='fade'>
+            <div v-if='show'>who are you</div>
+        </transition> -->
+        <transition enter-active-class='enter' leave-active-class='leave'>
+            <div v-if='show'>who are you</div>
+        </transition>
+        <button @click='onClick'>button</button>
+    </div>
+    <script>
+
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: false
+            },
+            methods: {
+                onClick: function() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>
